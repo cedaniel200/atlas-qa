@@ -1,11 +1,12 @@
 {
   "id": "qa",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "requires": ["core"],
   "roles": ["test-analyst", "test-automation"],
   "skills": [
     "docs-quality",
     "review-test-design",
+    "review-test-automation",
     "quality-research",
     "performance-testing"
   ],

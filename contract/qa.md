@@ -1,111 +1,109 @@
-# Contrato del ciclo de calidad
+# Quality cycle contract
 
-> Fragmento del contrato base. No es un segundo `AGENTS.md`: se integra en el contrato del proyecto
-> cuando el bundle `qa` está activo. Lo que no esté decidido aquí se pregunta; no se inventa.
+> Fragment of the base contract. It is not a second `AGENTS.md`: it is merged into the project contract
+> when the `qa` bundle is active. Anything not decided here is asked, never invented.
 
-## 1 · Propósito
+## 1 · Purpose
 
-Este bundle cubre planificar, diseñar, automatizar y documentar pruebas de software, y cerrar el ciclo
-con un veredicto sostenido por evidencia. No cubre evaluación de sistemas de IA: eso es el pack
-`ai-eval`.
+This bundle covers planning, designing, automating and documenting software tests, and closing the cycle
+with a verdict supported by evidence. It does not cover AI system evaluation: that is the `ai-eval` pack.
 
-## 2 · Contexto del proyecto
+## 2 · Project context
 
-- El stack, las superficies del sistema y los entornos se leen del contexto del proyecto y del perfil
-  activo. **No se infieren.**
-- Si el contexto no declara una superficie, un entorno o un comando, se registra como bloqueo y se
-  pregunta; no se completa con una suposición plausible.
-- Los comandos de build, test y lint son los que declare el perfil. No se inventan comandos.
+- The stack, the system surfaces and the environments come from the project context and the active
+  profile. **They are never inferred.**
+- If the context does not declare a surface, an environment or a command, it is recorded as a blocker and
+  asked. It is not filled with a plausible guess.
+- Build, test and lint commands are the ones declared by the profile. They are not invented.
 
-## 3 · Flujo
+## 3 · Flow
 
 ```text
-Humano (insumos) → test-analyst → [APROBACIÓN] → test-automation → [VALIDACIÓN] → doc-writer
+Human (inputs) → test-analyst → [APPROVAL] → test-automation → [VALIDATION] → doc-writer
 ```
 
-1. **Entrada humana:** requisitos, historias, criterios de aceptación, contratos, diagramas, accesos y
-   restricciones. Ningún agente rellena esos vacíos por su cuenta.
-2. El `test-analyst` revisa los insumos, formula preguntas y diseña. No automatiza ni documenta.
-3. **Punto de control obligatorio:** el humano aprueba el paquete de análisis. Sin esa aprobación el
-   flujo se detiene; el `test-automation` no inicia nada.
-4. El `test-automation` consume solo casos `Aprobado` y devuelve resultados con evidencia.
-5. **Punto de control obligatorio:** el humano valida resultados y evidencias antes de consolidar.
-6. El `doc-writer` consolida lo aprobado en la documentación oficial.
-7. Si falta información, el agente registra el bloqueo y formula preguntas concretas.
-8. Un cambio en requisitos obliga a revisar casos, automatización y documentos; el flujo se reanuda en
-   el paso 3.
+1. **Human input:** requirements, stories, acceptance criteria, contracts, diagrams, access and
+   constraints. No agent fills those gaps on its own.
+2. The `test-analyst` reviews the inputs, asks questions and designs. It does not automate and does not
+   document.
+3. **Mandatory checkpoint:** the human approves the analysis package. Without that approval the flow
+   stops; `test-automation` starts nothing.
+4. `test-automation` consumes only `Approved` cases and returns results with evidence.
+5. **Mandatory checkpoint:** the human validates results and evidence before consolidation.
+6. The `doc-writer` consolidates approved material into the official documentation.
+7. If information is missing, the agent records the blocker and asks concrete questions.
+8. A requirement change forces a review of affected cases, automation and documents; the flow resumes at
+   step 3.
 
-## 4 · Traspaso al doc-writer
+## 4 · Hand-off to doc-writer
 
-- **La aprobación dispara la consolidación.** No se depende de que alguien se acuerde de invocarlo.
-- Todo insumo que espera consolidación declara versión, fuentes y preguntas abiertas. Sin eso no hay
-  traspaso.
-- Un documento oficial marcado como `Consolidado` indica de qué versión del insumo proviene. Si el
-  insumo cambia, la marca desaparece.
-- El insumo no describe su destino: describe su contenido. El estado y la versión bastan.
+- **Approval triggers consolidation.** It never depends on someone remembering to invoke it.
+- Every input awaiting consolidation declares version, sources and open questions. Without that there is
+  no hand-off.
+- An official document marked `Consolidated` states which input version it came from. If the input
+  changes, the mark disappears.
+- The input describes its content, not its destination. State and version are enough.
 
-## 5 · Artefactos e identificadores
+## 5 · Artifacts and identifiers
 
-| Tipo | Patrón | Quién lo asigna |
+| Type | Pattern | Assigned by |
 |---|---|---|
-| Requisito | `REQ-###` | `test-analyst` |
-| Caso de prueba | `TC-###` | `test-analyst` |
-| Dato de referencia | `DATA-###` | `test-analyst` |
-| Ejecución | `RUN-YYYYMMDD-##` | `test-automation` |
-| Hallazgo | `BUG-###` | `test-automation` |
+| Requirement | `REQ-###` | `test-analyst` |
+| Test case | `TC-###` | `test-analyst` |
+| Reference data | `DATA-###` | `test-analyst` |
+| Run | `RUN-YYYYMMDD-##` | `test-automation` |
+| Finding | `BUG-###` | `test-automation` |
 
-- Estado de artefacto: `Borrador`, `En revisión`, `Aprobado`, `No aplicable`, `Obsoleto`.
-  **Solo el humano marca `Aprobado`.**
-- Resultado de ejecución: `Éxito`, `Fallo`, `Bloqueado`, `Omitido`, `No ejecutado`.
-- Todo caso enlaza al menos un requisito identificable. Si no existe identificador, se propone uno
-  provisional y se marca como tal.
-- La matriz recorre requisito → dato → caso → ejecución/evidencia → hallazgo cuando esos datos existan.
+- Artifact state: `Draft`, `In review`, `Approved`, `Not applicable`, `Obsolete`.
+  **Only the human marks `Approved`.**
+- Run result: `Pass`, `Fail`, `Blocked`, `Skipped`, `Not run`.
+- Every case links to at least one identifiable requirement. If no identifier exists, a provisional one
+  is proposed and marked as such.
+- The matrix walks requirement → data → case → run/evidence → finding whenever that data exists.
 
-## 6 · Datos de referencia
+## 6 · Reference data
 
-- El caso describe comportamiento y cita el dato por su identificador. **No cita el valor.**
-- El `DATA-###` declara una **regla de selección** y, aparte, los valores vigentes con su fecha.
-- El valor concreto se escribe solo cuando el valor **es la condición que se prueba**.
-- Los datos de prueba son controlados y aislados. Nunca datos personales o productivos sin
-  autorización.
+- The case describes behaviour and cites the data by identifier. **It never cites the value.**
+- `DATA-###` declares a **selection rule** and, separately, the live values with their date.
+- A concrete value is written only when the value **is the condition under test**.
+- Test data is controlled and isolated. Never personal or production data without authorization.
 
-## 7 · Evidencia y veredicto
+## 7 · Evidence and verdict
 
-- Resultado esperado y resultado obtenido van separados. Sin evidencia no hay `Éxito`.
-- Ningún informe se cierra con hallazgos bloqueantes abiertos.
-- Un veredicto declara aprobación, aprobación con sugerencias o no aprobación, y se sostiene en la
-  tabla de hallazgos: si hay un bloqueante abierto, el veredicto no puede ser favorable.
-- No se declara certificación ni cumplimiento por ausencia de defectos.
+- Expected result and actual result are kept apart. Without evidence there is no `Pass`.
+- No report is closed with open blocking findings.
+- A verdict states approval, approval with suggestions or non-approval, and it is supported by the
+  findings table: with an open blocker, the verdict cannot be favourable.
+- Certification or compliance is never declared just because no defects were found.
 
-## 8 · Autonomía
+## 8 · Autonomy
 
-| Rol | Puede hacer sin preguntar | Requiere aprobación humana |
+| Role | May do without asking | Requires human approval |
 |---|---|---|
-| `test-analyst` | Leer requisitos, identificar vacíos, proponer estrategia, plan, casos y matriz en borrador | Aprobar alcance, resolver ambigüedades de negocio, cambiar requisitos |
-| `test-automation` | Inspeccionar el repositorio, proponer arquitectura, crear pruebas en el área autorizada y ejecutar pruebas no destructivas en entorno autorizado | Modificar código de producción, cambiar infraestructura compartida, usar datos reales, ejecutar pruebas destructivas o contra producción |
-| `doc-writer` (skill `docs-quality`) | Leer insumos y actualizar borradores sin cambiar el significado | Aprobar certificaciones, declarar cumplimiento, descartar hallazgos |
+| `test-analyst` | Read requirements, identify gaps, propose strategy, plan, cases and matrix as drafts | Approve scope, resolve business ambiguity, change requirements |
+| `test-automation` | Inspect the repository, propose architecture, write tests in the authorized area and run non-destructive tests in an authorized environment | Change production code, modify shared infrastructure, use real data, run destructive tests or run against production |
+| `doc-writer` (skill `docs-quality`) | Read inputs and update drafts without changing meaning | Approve certifications, declare compliance, discard findings |
 
-- Si el permiso del entorno no está claro, el agente se detiene y pide autorización.
-- Ningún agente aprueba sus propios entregables.
+- If the environment permission is unclear, the agent stops and asks.
+- No agent approves its own deliverables.
 
-## 9 · Guardas de operación
+## 9 · Operating guards
 
-Estas guardas no se duplican aquí: se heredan del contrato del proyecto y del motor.
+These guards are not duplicated here: they are inherited from the project contract and the engine.
 
-- **Rama y commits:** el trabajo va en una rama, nunca directamente sobre la base; un cambio lógico es
-  un commit, con prefijo convencional.
-- **Secretos:** no se versionan claves, tokens, credenciales ni datos reales.
-- **Verificación:** ninguna librería, API, comando o versión se afirma de memoria; se verifica en la
-  documentación vigente o se declara como no verificado.
-- **Memoria persistente:** si el proyecto la tiene configurada, se consulta al empezar y se escribe al
-  decidir. Complementa los documentos; no los sustituye.
-- **No se inventa nada:** sin evidencia en requisitos, contratos, código o documentación no se crean
-  endpoints, selectores, comandos, métricas ni resultados.
+- **Branch and commits:** work happens on a branch, never directly on the base; one logical change is one
+  commit with a conventional prefix.
+- **Secrets:** no keys, tokens, credentials or real data are versioned.
+- **Verification:** no library, API, command or version is claimed from memory; it is verified in the
+  current documentation or declared unverified.
+- **Persistent memory:** if the project has it configured, it is read at the start and written when a
+  decision is made. It complements the documents; it does not replace them.
+- **Nothing is invented:** without evidence in requirements, contracts, code or documentation, no
+  endpoints, selectors, commands, metrics or results are created.
 
-## 10 · Precedencia
+## 10 · Precedence
 
-1. La especificación aprobada del producto y sus criterios de aceptación son la fuente de verdad
-   funcional.
-2. Este contrato define el ciclo de calidad.
-3. Las skills definen la técnica; los roles, el procedimiento.
-4. Ante contradicción, no se elige en silencio: se registra el conflicto y se pide decisión.
+1. The approved product specification and its acceptance criteria are the functional source of truth.
+2. This contract defines the quality cycle.
+3. Skills define technique; roles define procedure.
+4. On contradiction, nothing is chosen silently: the conflict is recorded and a decision is requested.

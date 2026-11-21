@@ -1,61 +1,59 @@
 ---
 name: performance-testing
-description: Use when a requirement depends on response time, throughput, concurrency or capacity — defines the load model, the baseline and the acceptance thresholds before any run. Trigger: "prueba de carga", "rendimiento", "cuántos usuarios soporta", "latencia", "estrés", "capacidad".
+description: Use when a requirement depends on response time, throughput, concurrency or capacity — defines the load model, the baseline and the acceptance thresholds before any run. Trigger: "load test", "performance", "how many users does it support", "latency", "stress", "capacity".
 ---
 
-# Pruebas de rendimiento
+# Performance testing
 
 ## Overview
 
-Mide el comportamiento bajo una carga declarada y lo compara contra un umbral aprobado. Sin modelo de
-carga y sin umbral acordado, una prueba de rendimiento produce números, no evidencia.
+Measures behaviour under a declared load and compares it against an approved threshold. Without a load
+model and without an agreed threshold, a performance test produces numbers, not evidence.
 
 ## When to Use
 
-- Cuando un requisito fija tiempos de respuesta, concurrencia o capacidad.
-- Antes de un lanzamiento, para establecer una línea base.
-- Cuando se sospecha una regresión de rendimiento entre versiones.
+- When a requirement fixes response time, concurrency or capacity.
+- Before a release, to establish a baseline.
+- When a performance regression is suspected between versions.
 
-No usar para medir el rendimiento de la suite de pruebas ni para comparar herramientas.
+Do not use to measure the performance of the test suite itself or to compare tools.
 
-## Antes de ejecutar
+## Before running
 
-| Elemento | Sin él |
+| Element | Without it |
 |---|---|
-| **Modelo de carga** | No se sabe qué se está midiendo: usuarios concurrentes, ritmo de llegada, duración, perfil de mezcla |
-| **Ambiente declarado** | Los datos no son comparables entre ejecuciones |
-| **Umbral** | No hay criterio de aprobación; el número no significa nada |
-| **Línea base** | No hay contra qué comparar |
-| **Datos controlados** | El resultado depende de qué había en la base |
+| **Load model** | It is unknown what is being measured: concurrent users, arrival rate, duration, mix profile |
+| **Declared environment** | Results are not comparable across runs |
+| **Threshold** | There is no acceptance criterion; the number means nothing |
+| **Baseline** | There is nothing to compare against |
+| **Controlled data** | The result depends on what happened to be in the database |
 
-Si falta uno, la prueba no se ejecuta: se registra como bloqueo.
+If one is missing, the test does not run: it is recorded as a blocker.
 
-## Convenciones
+## Conventions
 
-1. **Umbrales aprobados, no inventados.** Se proponen con justificación —requisito, acuerdo de servicio,
-   línea base previa— y el humano los aprueba antes de la ejecución.
-2. **Una variable por ejecución.** Si se cambia la carga y el ambiente a la vez, el resultado no se
-   atribuye a nada.
-3. **Mide el percentil, no la media.** La media esconde la cola, y la cola es lo que el usuario siente.
-   Declara qué percentil se usa y por qué.
-4. **No destructivo o autorizado.** Carga, estrés y capacidad se ejecutan solo en el ambiente declarado
-   y con autorización explícita.
-5. **Datos aislados y reproducibles.** El estado del ambiente se registra antes y después.
-6. **Interferencia declarada.** Si otras pruebas corren en el mismo ambiente, se anota y no se compara.
-7. **Una regresión no se declara con una sola ejecución.** Se repite y se busca la causa antes de
-   abrir un hallazgo.
-8. **El resultado es evidencia, no una promesa.** Se adjuntan condiciones, configuración y artefactos.
+1. **Approved thresholds, never invented.** They are proposed with justification — requirement, service
+   agreement, previous baseline — and the human approves them before the run.
+2. **One variable per run.** If load and environment change together, the result explains nothing.
+3. **Measure the percentile, not the mean.** The mean hides the tail, and the tail is what users feel.
+   State which percentile is used and why.
+4. **Non-destructive or authorized.** Load, stress and capacity run only in the declared environment and
+   with explicit authorization.
+5. **Isolated, reproducible data.** Environment state is recorded before and after.
+6. **Declared interference.** If other tests share the environment, note it and do not compare.
+7. **One run does not declare a regression.** Repeat it and find the cause before opening a finding.
+8. **The result is evidence, not a promise.** Attach conditions, configuration and artifacts.
 
-## Formato de salida
+## Output format
 
-- **Modelo de carga:** usuarios, ritmo, duración, mezcla y datos.
-- **Umbral acordado:** métrica, percentil, valor y quién lo aprobó.
-- **Ejecuciones:** `RUN-YYYYMMDD-## | Escenario | Carga | Ambiente | Métrica | Valor | Resultado | Evidencia`.
-- **Comparación** contra la línea base, cuando exista.
-- **Hallazgos:** `BUG-###` con la condición que los reproduce.
+- **Load model:** users, rate, duration, mix and data.
+- **Agreed threshold:** metric, percentile, value and who approved it.
+- **Runs:** `RUN-YYYYMMDD-## | Scenario | Load | Environment | Metric | Value | Result | Evidence`.
+- **Comparison** against the baseline, when one exists.
+- **Findings:** `BUG-###` with the condition that reproduces them.
 
-## Relación con el ciclo
+## Relation to the cycle
 
-- El `test-analyst` define modelo de carga, umbral y casos; sin su aprobación no hay ejecución.
-- El `test-automation` ejecuta y entrega resultados con evidencia.
-- Un rendimiento fuera de umbral es un hallazgo abierto: bloquea el veredicto favorable.
+- `test-analyst` defines the load model, the threshold and the cases; without its approval there is no run.
+- `test-automation` runs and delivers results with evidence.
+- Performance outside the threshold is an open finding: it blocks a favourable verdict.

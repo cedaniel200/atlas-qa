@@ -1,53 +1,53 @@
 ---
 name: quality-research
-description: Use before designing or approving tests when a claim depends on an external fact — tool behaviour, API limits, standard versions, framework features. Trigger: "¿soporta esto?", "¿cómo funciona X?", "busca cómo se hace", "verifica la versión".
+description: Use before designing or approving tests when a claim depends on an external fact — tool behaviour, API limits, standard versions, framework features. Trigger: "does it support this?", "how does X work?", "look up how this is done", "check the version".
 ---
 
-# Investigación de calidad
+# Quality research
 
 ## Overview
 
-Responde con fuentes lo que el diseño da por sabido. Una afirmación que cambia el diseño sin fuente es
-un supuesto, y un supuesto se marca como tal.
+Answers with sources what the design takes for granted. A claim that changes the design without a source
+is an assumption, and an assumption is marked as such.
 
 ## When to Use
 
-- Antes de fijar una estrategia o una técnica que depende de cómo funciona una herramienta.
-- Antes de prometer cobertura, límites o compatibilidad de versiones.
-- Cuando dos documentos del proyecto se contradicen.
+- Before fixing a strategy or a technique that depends on how a tool behaves.
+- Before promising coverage, limits or version compatibility.
+- When two project documents contradict each other.
 
-No usar para hechos del propio repositorio: eso se lee en el código y en el contrato.
+Do not use for facts about the repository itself: those are read from the code and the contract.
 
-## Barra de evidencia
+## Evidence bar
 
-| Nivel | Qué vale | Qué no vale |
+| Level | What counts | What does not |
 |---|---|---|
-| **Verificado** | Documentación oficial de la versión usada, o un experimento reproducible en el proyecto | Un blog, un foro, la memoria del modelo |
-| **Supuesto** | Razonable pero no comprobado | Presentarlo como hecho |
-| **Bloqueo** | No se puede verificar | Rellenar con lo plausible |
+| **Verified** | Official documentation of the version in use, or a reproducible experiment in the project | A blog post, a forum answer, model memory |
+| **Assumption** | Reasonable but unproven | Presenting it as fact |
+| **Blocker** | It cannot be verified | Filling the gap with something plausible |
 
-Toda afirmación que cambie el diseño cita fuente o experimento. Si no puede, se marca como supuesto y se
-declara qué lo confirmaría.
+Every claim that changes the design cites a source or an experiment. If it cannot, it is marked as an
+assumption and what would confirm it is stated.
 
-## Procedimiento
+## Procedure
 
-1. **Formular la pregunta** en una frase, acotada a un hecho.
-2. **Buscar primero en el proyecto:** contrato, contexto, código, configuración, historial.
-3. **Verificar fuera** cuando el hecho sea externo: documentación de la versión exacta que se usa.
-4. **Registrar:** qué se preguntó, qué se encontró, qué cambió en el diseño y qué sigue abierto.
-5. **Acotar la salida:** máximo diez hallazgos, cada uno con su fuente y su consecuencia práctica.
+1. **State the question** in one sentence, limited to a single fact.
+2. **Search the project first:** contract, context, code, configuration, history.
+3. **Verify outside** when the fact is external: documentation for the exact version in use.
+4. **Record:** what was asked, what was found, what changed in the design and what remains open.
+5. **Limit the output:** at most ten findings, each with its source and its practical consequence.
 
-## Reglas
+## Rules
 
-1. No investigues lo que ya está decidido en el contrato del proyecto; sería ruido.
-2. Distingue la versión instalada de la última publicada. Un comportamiento de la última no explica la
-   actual.
-3. Si la documentación contradice la observación, gana la observación y se registra la discrepancia.
-4. Si no hay preguntas abiertas, dilo en una línea. No produzcas una investigación vacía.
-5. Sin cifras de costo por hallazgo: el límite es el de la utilidad, no el de la exhaustividad.
+1. Do not research what the project contract already decides; that is noise.
+2. Separate the installed version from the latest published one. Behaviour of the latest does not explain
+   the current.
+3. If documentation contradicts observation, the observation wins and the discrepancy is recorded.
+4. If there are no open questions, say so in one line. Do not produce an empty investigation.
+5. There is no cost target per finding: the limit is usefulness, not exhaustiveness.
 
-## Formato de salida
+## Output format
 
-- **Preguntas:** una línea cada una, con su estado (`resuelta`, `supuesto`, `bloqueada`).
-- **Hallazgos:** hecho, fuente, efecto sobre el diseño.
-- **Descartes:** qué se comprobó y no cambió nada, en una línea por descarte.
+- **Questions:** one line each, with state (`resolved`, `assumption`, `blocked`).
+- **Findings:** fact, source, effect on the design.
+- **Discards:** what was checked and changed nothing, one line per discard.

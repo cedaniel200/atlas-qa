@@ -1,58 +1,57 @@
 ---
 name: review-test-design
-description: Use when reviewing a test design before it is approved — checks traceability, oracle quality, data coupling, technique fit, feasibility and evidence. Trigger: "revisa el diseño de pruebas", "revisa los casos", "¿esto está listo para aprobar?".
+description: Use when reviewing a test design before it is approved — checks traceability, oracle quality, data coupling, technique fit, feasibility and evidence. Trigger: "review the test design", "review the cases", "is this ready to approve?".
 ---
 
-# Revisión de un diseño de pruebas
+# Review of a test design
 
 ## Overview
 
-Revisa el paquete de análisis como lo haría un par antes de que el humano lo apruebe. No rediseña: dice
-qué está roto, con qué severidad y por qué.
+Reviews the analysis package the way a peer would before the human approves it. It does not redesign: it
+says what is broken, how severe it is and why.
 
 ## When to Use
 
-- Cuando el `test-analyst` declara el paquete listo y antes de la aprobación humana.
-- Cuando cambia un requisito y hay que revisar el impacto sobre casos y matriz.
+- When `test-analyst` declares the package ready and before human approval.
+- When a requirement changes and the impact on cases and matrix must be reviewed.
 
-No usar para revisar código de automatización ni documentación consolidada.
+Do not use to review automation code or consolidated documentation.
 
-## Qué se revisa
+## What is reviewed
 
-| Dimensión | Pregunta |
+| Dimension | Question |
 |---|---|
-| **Trazabilidad** | ¿Todo caso enlaza un requisito y todo requisito tiene al menos un caso o una razón declarada? |
-| **Oráculo** | ¿El resultado esperado es observable y verificable, o dice «funciona correctamente»? |
-| **Datos** | ¿El caso cita el valor en lugar del identificador del dato? ¿La regla de selección está declarada? |
-| **Técnica** | ¿La técnica elegida corresponde al tipo de riesgo, o se aplican todas por inercia? |
-| **Cobertura** | ¿Hay requisitos sin cubrir o casos huérfanos? ¿Se afirma cobertura sin evidencia? |
-| **Viabilidad** | ¿El caso se puede ejecutar con los entornos y datos que existen? |
-| **Umbrales** | ¿Los criterios de salida están justificados o son cifras inventadas? |
-| **Evidencia** | ¿Se distinguen hechos de supuestos? ¿Hay afirmaciones sin fuente? |
-| **Duplicación** | ¿Se valida lo mismo en varias capas sin justificación? |
+| **Traceability** | Does every case link to a requirement, and does every requirement have at least one case or a declared reason? |
+| **Oracle** | Is the expected result observable and verifiable, or does it say "works correctly"? |
+| **Data** | Does the case cite the data value instead of its identifier? Is the selection rule declared? |
+| **Technique** | Does the chosen technique match the type of risk, or is every technique applied by inertia? |
+| **Coverage** | Are there uncovered requirements or orphan cases? Is coverage claimed without evidence? |
+| **Feasibility** | Can the case be executed with the environments and data that exist? |
+| **Thresholds** | Are exit criteria justified or invented numbers? |
+| **Evidence** | Are facts and assumptions kept apart? Are there claims without a source? |
+| **Duplication** | Is the same thing validated across layers without justification? |
 
-## Severidad
+## Severity
 
-- **Bloqueante:** impide aprobar. Sin requisito, oráculo no verificable, dato incrustado, supuesto
-  convertido en criterio.
-- **Importante:** afecta cobertura o mantenibilidad. Técnica mal elegida, duplicación, umbral sin
-  justificar.
-- **Sugerencia:** mejora la claridad sin cambiar el resultado.
+- **Blocking:** prevents approval. Missing requirement, unverifiable oracle, embedded data value,
+  assumption turned into a criterion.
+- **Important:** affects coverage or maintainability. Wrong technique, duplication, unjustified threshold.
+- **Suggestion:** improves clarity without changing the outcome.
 
-## Formato de salida
+## Output format
 
-Tabla de resumen, obligatoria y al principio:
+Summary table, mandatory and first:
 
-| # | Hallazgo | Severidad | Estado | Acción propuesta |
+| # | Finding | Severity | State | Proposed action |
 |---|---|---|---|---|
 
-- `Estado`: `abierto`, `cerrado` o `aceptado` (con motivo).
-- Cierra con un veredicto que se derive de la tabla: si hay un bloqueante abierto, no hay aprobación.
-- No reescribas los casos: describe el defecto y dónde está.
+- `State`: `open`, `closed` or `accepted` (with reason).
+- Close with a verdict derived from the table: with an open blocker there is no approval.
+- Do not rewrite the cases: describe the defect and where it is.
 
-## Reglas
+## Rules
 
-1. Una pasada completa, no una por sección.
-2. No propongas un diseño alternativo salvo que el defecto lo exija; entonces, una sola alternativa.
-3. No cierres un hallazgo propio sin evidencia de que se corrigió.
-4. Si el paquete no tiene bloqueantes, dilo explícitamente y pasa al humano.
+1. One full pass, not one per section.
+2. Do not propose an alternative design unless the defect requires it; then, one alternative only.
+3. Do not close your own finding without evidence that it was fixed.
+4. If the package has no blockers, say so explicitly and hand it to the human.
