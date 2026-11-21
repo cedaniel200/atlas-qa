@@ -1,85 +1,88 @@
 # atlas-qa
 
-> **Alpha.** Bundle of the ATLAS suite for the quality cycle. The `atlasctl` engine lands in 0.6.0 and
-> bundle wiring in 0.6.1. Nothing here is installable yet.
+> **Alpha.** Bundle de la suite ATLAS para el ciclo de calidad. El motor `atlasctl` llega en 0.6.0 y el
+> enganche de bundles en 0.6.1. Todavía no hay nada instalable.
 
-This repository is **content**, not a product: roles, skills and a contract fragment that the engine
-applies over a project. It is not cloned in order to be used.
+> English version: [README.en.md](README.en.md)
 
-## Structure
+Este repositorio es **contenido**, no producto: roles, skills y un fragmento de contrato que el motor
+aplica sobre un proyecto. No se clona para usarlo.
+
+## Estructura
 
 ```text
-bundle.json          bundle metadata: id, dependencies, roles and skills
-contract/qa.md       fragment of the base contract (not an AGENTS.md of its own)
-roles/               procedure for each role exclusive to this bundle
-skills/              techniques, loaded by whichever role needs them
-packs/               optional specializations (ai-eval, pending)
+bundle.json          metadatos del bundle: id, dependencias, roles y skills
+contract/qa.md       fragmento del contrato base (no es un AGENTS.md propio)
+roles/               procedimiento de cada rol exclusivo de este bundle
+skills/              técnicas, cargadas por el rol que las necesite
+packs/               especializaciones opcionales (ai-eval, pendiente)
 ```
 
-`bundle.json` declares `requires: ["core"]`. Shared roles (`analyst`, `researcher`, `reviewer`,
-`doc-writer`) come from the `core` bundle and this bundle **specializes them with skills** instead of
-redefining them. One copy of each role, no drift between products.
+`bundle.json` declara `requires: ["core"]`. Los roles compartidos (`analyst`, `researcher`, `reviewer`,
+`doc-writer`) vienen del bundle `core`, y este bundle los **especializa con skills** en vez de
+redefinirlos. Una sola copia de cada rol y ninguna deriva entre productos.
 
-## What is a role, a skill, a pack or a profile
+## Qué es un rol, una skill, un pack o un perfil
 
-The classification is not cosmetic: each one has a different failure mode.
+La clasificación no es cosmética: cada una falla de una manera distinta.
 
-| Kind | Test | Failure mode if misused |
+| Tipo | Prueba | Si se usa mal |
 |---|---|---|
-| **Role** | Own mandate, own stopping points, own write limits | Two roles with the same mandate drift apart |
-| **Skill** | Same mandate, different checklist | Explodes into roles that contradict each other |
-| **Pack** | Different artifacts or acceptance model, same gates | A bundle that is really a technique |
-| **Profile** | Stack, language, commands, paths | The content stops being agnostic |
+| **Rol** | Mandato propio, puntos de parada propios, límites de escritura | Dos roles con el mismo mandato divergen |
+| **Skill** | Mismo mandato, distinta lista de comprobación | Se convierte en roles que se contradicen |
+| **Pack** | Artefactos o modelo de aceptación distintos, mismos gates | Un bundle que en realidad es una técnica |
+| **Perfil** | Stack, lenguaje, comandos, rutas | El contenido deja de ser agnóstico |
 
-Applied to this bundle:
+Aplicado a este bundle:
 
-| Piece | Kind | Why |
+| Pieza | Tipo | Por qué |
 |---|---|---|
-| `test-analyst` | role | Designs, stops for approval, never automates |
-| `test-automation` | role | Writes code, runs, never designs |
-| design review | skill of `reviewer` | Same mandate as code review, different checklist |
-| automation review | skill of `reviewer` | Idem |
-| `researcher` | role from `core` + `quality-research` | The role already exists; the technique is local |
-| `doc-writer` | role from `core` + `docs-quality` | Idem |
-| `performance-testing` | skill | A technique: no own flow, no own gates |
-| `ai-eval` (RAG, agents) | pack | Different artifacts and acceptance model, same gates |
+| `test-analyst` | rol | Diseña, se detiene para aprobación, nunca automatiza |
+| `test-automation` | rol | Escribe código, ejecuta, nunca diseña |
+| Revisión del diseño | skill de `reviewer` | Mismo mandato que revisar código, distinta lista |
+| Revisión de la automatización | skill de `reviewer` | Ídem |
+| `researcher` | rol del `core` + `quality-research` | El rol ya existe; la técnica es local |
+| `doc-writer` | rol del `core` + `docs-quality` | Ídem |
+| `performance-testing` | skill | Técnica: sin flujo propio ni gates propios |
+| `ai-eval` (RAG, agentes) | pack | Artefactos y modelo de aceptación distintos, mismos gates |
 
 ## Roles
 
-| Role | Prompt | Responsibility | Writes to |
+| Rol | Prompt | Responsabilidad | Escribe en |
 |---|---|---|---|
-| `test-analyst` | `roles/test-analyst.md` | Strategy, plan, cases, data and traceability | `artifacts/analysis/` |
-| `test-automation` | `roles/test-automation.md` | Automatability, architecture and test code | the project's test area |
+| `test-analyst` | `roles/test-analyst.md` | Estrategia, plan, casos, datos y trazabilidad | `artifacts/analysis/` |
+| `test-automation` | `roles/test-automation.md` | Automatizabilidad, arquitectura y código de pruebas | área de pruebas del proyecto |
 
 ## Skill Registry
 
-> Triggers can be expressed in any language; each skill declares examples in its `description`.
+> Los disparadores pueden estar en cualquier idioma; cada skill declara ejemplos en su `description`.
 
-| Skill | Path | Trigger |
+| Skill | Ruta | Disparador |
 |---|---|---|
-| `docs-quality` | `skills/docs-quality/` | Consolidate inputs into official documentation |
-| `review-test-design` | `skills/review-test-design/` | Review a test design before approval |
-| `review-test-automation` | `skills/review-test-automation/` | Review automation before validation |
-| `quality-research` | `skills/quality-research/` | Verify an external fact that changes the design |
-| `performance-testing` | `skills/performance-testing/` | Latency, concurrency or capacity requirement |
+| `docs-quality` | `skills/docs-quality/` | Consolidar insumos en documentación oficial |
+| `review-test-design` | `skills/review-test-design/` | Revisar un diseño de pruebas antes de aprobarlo |
+| `review-test-automation` | `skills/review-test-automation/` | Revisar la automatización antes de validarla |
+| `quality-research` | `skills/quality-research/` | Verificar un hecho externo que cambia el diseño |
+| `performance-testing` | `skills/performance-testing/` | Requisito de latencia, concurrencia o capacidad |
 
-## Cycle
+## Ciclo
 
 ```text
-Human → test-analyst → [approval] → test-automation → [validation] → doc-writer
+Humano → test-analyst → [aprobación] → test-automation → [validación] → doc-writer
 ```
 
-Two human checkpoints. Details in `contract/qa.md`.
+Dos puntos de control humanos. El detalle está en `contract/qa.md`.
 
-## Pending for 0.6.1
+## Pendiente para 0.6.1
 
-- **`ai-eval` pack**: certification of RAG and agentic systems. Same flow, different techniques:
-  evaluation set, rubrics, score baselines and statistical thresholds. It needs its own analyst role
-  because the acceptance model is not pass/fail.
-- **Templates**: plan, cases, matrix and report, linked from the skills.
-- **`core` bundle**: this bundle depends on it and it does not exist yet.
+- **`atlas-core`**: el bundle `core` con el contrato base y los seis roles compartidos. Hoy vive dentro de
+  `atlas-dev`; se separa cuando el motor ya esté publicado, para no duplicar la migración.
+- **Pack `ai-eval`**: certificación de sistemas RAG y agénticos. Mismo flujo, técnicas distintas: conjunto
+  de evaluación, rúbricas, baselines de puntuación y umbrales estadísticos. Necesita su propio rol de
+  análisis porque el modelo de aceptación no es pasa/no pasa.
+- **Templates**: plan, casos, matriz e informe, enlazados desde las skills.
 
-## Links
+## Enlaces
 
-- Engine: <https://github.com/cedaniel200/atlasctl>
-- Development bundle: <https://github.com/cedaniel200/atlas-dev>
+- Motor: <https://github.com/cedaniel200/atlasctl>
+- Bundle de desarrollo: <https://github.com/cedaniel200/atlas-dev>
