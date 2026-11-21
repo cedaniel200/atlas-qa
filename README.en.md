@@ -68,10 +68,19 @@ Applied to this bundle:
 ## Cycle
 
 ```text
-Human → test-analyst → [approval] → test-automation → [validation] → doc-writer
+Human → test-analyst → reviewer → [approval] → test-automation → reviewer → [validation] → doc-writer
+              ↕ researcher (on demand)
 ```
 
-Two human checkpoints. Details in `contract/qa.md`.
+- **Researcher:** the analyst invokes it when an external fact changes the design; the reviewer blocks any
+  unsourced claim, so it is neither overused nor forgotten.
+- **Reviewer:** one role, two moments: it reviews the package before approval and the automation before
+  validation.
+- **Loops:** at most two rounds per loop. If a finding reopens, it is escalated to the human instead of
+  repeating the round.
+- **Parallelism:** readers only; the engine declares the limit according to machine resources.
+
+Details in `contract/qa.md`.
 
 ## Pending for 0.6.1
 

@@ -68,10 +68,18 @@ Aplicado a este bundle:
 ## Ciclo
 
 ```text
-Humano → test-analyst → [aprobación] → test-automation → [validación] → doc-writer
+Humano → test-analyst → reviewer → [aprobación] → test-automation → reviewer → [validación] → doc-writer
+                ↕ investigador (a demanda)
 ```
 
-Dos puntos de control humanos. El detalle está en `contract/qa.md`.
+- **Investigador:** el analista lo invoca cuando un hecho externo cambia el diseño; el reviewer bloquea
+  cualquier afirmación sin fuente, así que ni se usa de más ni se olvida.
+- **Reviewer:** un rol, dos momentáneos: revisa el paquete antes de la aprobación y la automatización antes
+  de la validación.
+- **Bucles:** máximo dos rondas por bucle. Si un hallazgo se reabre, se escala al humano en vez de repetir.
+- **Paralelismo:** solo lectores en paralelo; el límite lo declara el motor según los recursos.
+
+El detalle está en `contract/qa.md`.
 
 ## Pendiente para 0.6.1
 
