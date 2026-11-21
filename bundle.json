@@ -1,0 +1,14 @@
+{
+  "id": "qa",
+  "version": "0.1.0",
+  "requires": ["core"],
+  "roles": ["test-analyst", "test-automation"],
+  "skills": [
+    "docs-quality",
+    "review-test-design",
+    "quality-research",
+    "performance-testing"
+  ],
+  "packs": [],
+  "contract": "contract/qa.md"
+}
