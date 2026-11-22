@@ -74,6 +74,18 @@ of the product.
 
 The `test-analyst` invokes the `researcher` at its own discretion, with these rules.
 
+### The ownership test
+
+Two questions, in this order:
+
+1. **Is the answer outside the project and citable?** A tool behaviour, a version, a limit, a standard, an
+   API contract. That is research.
+2. **Is the answer owned by the business?** A rule, a priority, a policy, what the product is supposed to
+   do for its users. That is **never** research: it is a question to the human. The researcher does not
+   infer it, does not search for what the client probably wants and does not dress a guess as a finding.
+
+If neither applies, the question does not need an agent: it is read from the repository.
+
 ### It is required
 
 | Trigger | Example |
@@ -88,6 +100,8 @@ The `test-analyst` invokes the `researcher` at its own discretion, with these ru
 
 - Facts already in the project contract, context, code or configuration.
 - Decisions already taken: research is not a way to reopen them.
+- **Business knowledge:** rules, priorities, policies and expected product behaviour. The human provides
+  it; the researcher never replaces them.
 - Anything that would not change a case, a threshold, a technique or a verdict.
 - Curiosity about the product that does not affect a design decision.
 
@@ -132,11 +146,11 @@ A round is: deliver → review → revise.
 
 ### Parallelism
 
-- Parallelism is declared, never improvised. The engine resolves `max_parallel`: by default, half the
-  cores, ceiling four.
-- **Only readers run in parallel.** Two agents writing never share a turn.
-- Memory-heavy work — browser automation, load generation — runs with `max_parallel` equal to one.
-- No fan-out beyond the declared limit, not even when the tasks look independent.
+- The contract fixes two things: **readers may run in parallel, writers may not share a turn**, and the
+  fan-out never exceeds the declared limit, even when the tasks look independent.
+- The value of `max_parallel`, the detection of machine resources and the serialization of writes belong to
+  the **engine**. The bundle declares the expectation; it does not implement it.
+- Memory-heavy work — browser automation, load generation — expects a limit of one.
 
 ## 7 · Hand-off to doc-writer
 

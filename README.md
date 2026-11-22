@@ -72,8 +72,9 @@ Humano → test-analyst → reviewer → [aprobación] → test-automation → r
                 ↕ investigador (a demanda)
 ```
 
-- **Investigador:** el analista lo invoca cuando un hecho externo cambia el diseño; el reviewer bloquea
-  cualquier afirmación sin fuente, así que ni se usa de más ni se olvida.
+- **Investigador:** solo hechos consultables con fuente; lo que pertenece al negocio lo responde la
+  persona, nunca el agente. El reviewer bloquea cualquier afirmación sin fuente, así que ni se usa de más
+  ni se olvida.
 - **Reviewer:** un rol, dos momentáneos: revisa el paquete antes de la aprobación y la automatización antes
   de la validación.
 - **Bucles:** máximo dos rondas por bucle. Si un hallazgo se reabre, se escala al humano en vez de repetir.

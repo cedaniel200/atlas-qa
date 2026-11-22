@@ -72,8 +72,8 @@ Human → test-analyst → reviewer → [approval] → test-automation → revie
               ↕ researcher (on demand)
 ```
 
-- **Researcher:** the analyst invokes it when an external fact changes the design; the reviewer blocks any
-  unsourced claim, so it is neither overused nor forgotten.
+- **Researcher:** citable external facts only; business knowledge is answered by the person, never by the
+  agent. The reviewer blocks any unsourced claim, so it is neither overused nor forgotten.
 - **Reviewer:** one role, two moments: it reviews the package before approval and the automation before
   validation.
 - **Loops:** at most two rounds per loop. If a finding reopens, it is escalated to the human instead of
